@@ -18,7 +18,7 @@
 
 	gulp-usemin使用和注意地方
 
-	login.html
+	1、login.html文件
 	
 		需要加到 <!-- build: pipeline_id  生成的文件名 --> ... <!-- endbuild -->  之间
 
@@ -32,3 +32,22 @@
 		<script src="../js/a.js"></script>
 		<script src="../js/b.js"></script>
 		<!-- endbuild -->
+
+
+	2、代码不压缩
+
+		// usemin不会压缩代码还是需要在重新执行一下unlifyDistJS来对dist目录代码在重新压缩
+		gulp.task('usemin', ['scripts'], function () {
+		    return gulp.src('./src/**/*.html')
+		        .pipe(plugins.usemin({
+		            js: [plugins.uglify()],			
+		            css: [plugins.minifyCss()]         
+		        }))
+		        .pipe(gulp.dest('./dist/'));
+		});
+
+		gulp.task('unlifyDistJS', function() {
+		    return gulp.src('./dist/**/**/*.js')
+		        .pipe(plugins.uglify())
+		        .pipe(gulp.dest('./dist/'));
+		});
